@@ -71,7 +71,9 @@ class App extends React.Component {
       this.setState({sentimentOutput:<EmotionTable emotions={data}/>});
   })})  ;
   }
-  
+  componentDidMount() {
+    document.title = 'Sentiment Analyzer';
+  }
 
   render() {
     return (  
