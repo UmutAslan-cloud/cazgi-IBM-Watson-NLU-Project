@@ -44,7 +44,7 @@ class App extends React.Component {
     url = url+"/" + mode + "/sentiment?"+ mode + "="+document.getElementById("textinput").value;
 
     fetch(url).then((response)=>{
-        response.json().then((data)=>{
+        response.text().then((data)=>{
         this.setState({sentimentOutput:data.label});
         let output = data.label;
         let color = "white"
@@ -67,13 +67,11 @@ class App extends React.Component {
     url = url+"/" + mode + "/emotion?"+ mode + "="+document.getElementById("textinput").value;
 
     fetch(url).then((response)=>{
-      response.json().then((data)=>{
+      response.text().then((data)=>{
       this.setState({sentimentOutput:<EmotionTable emotions={data}/>});
   })})  ;
   }
-  componentDidMount() {
-    document.title = 'Sentiment Analyzer';
-  }
+
 
   render() {
     return (  
