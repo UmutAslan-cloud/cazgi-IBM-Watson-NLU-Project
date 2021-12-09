@@ -40,35 +40,34 @@ class App extends React.Component {
   sendForSentimentAnalysis = () => {
    
     this.setState({sentiment:true});
-    let url = "http://localhost:8080";
+    let url = ".";
     let mode = this.state.mode
     url = url+"/" + mode + "/sentiment?"+ mode + "="+document.getElementById("textinput").value;
-    fetch(url).then(response => response.json())
-     .then((data)=>{
-          console.log(data)
-        this.setState({sentimentOutput:data.label});
-        let output = data.label;
-        let color = "white"
-        switch(output) {
-          case "positive": color = "green";break;
-          case "neutral": color = "yellow";break;
-          case "negative": color = "red";break;
-          default: color = "black";
-        }
-        output = <div style={{color:color,fontSize:20}}>{output}</div>
-        this.setState({sentimentOutput:output});
-      })};
-     
+    fetch(url).then((response)=>{
+      response.json().then((data)=>{
+      this.setState({sentimentOutput:data.label});
+      let output = data.label;
+      let color = "white"
+      switch(output) {
+        case "positive": color = "yellow";break;
+        case "neutral": color = "green";break;
+        case "negative": color = "red";break;
+        default: color = "black";
+      }
+      output = <div style={{color:color,fontSize:20}}>{output}</div>
+      this.setState({sentimentOutput:output});
+    })});
+}
 
   sendForEmotionAnalysis = () => {
 
     this.setState({sentiment:false});
-    let url = "http://localhost:8080";
+    let url = ".";
     let mode = this.state.mode
     url = url+"/" + mode + "/emotion?"+ mode + "="+document.getElementById("textinput").value;
 
     fetch(url).then((response)=>{
-      response.text().then((data)=>{
+      response.json().then((data)=>{
       this.setState({sentimentOutput:<EmotionTable emotions={data}/>});
   })})  ;
   }
