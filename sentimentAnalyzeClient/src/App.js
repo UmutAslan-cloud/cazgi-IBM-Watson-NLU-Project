@@ -10,7 +10,7 @@ class App extends React.Component {
   value of the state, will be returned. The initial input mode
   is set to text
   */
-  state = {innercomp:<textarea rows="4" cols="50" id="textinput"/>,
+  state = {innercomp:<textarea rows="4" cols="50" id="textinput" />,
             mode: "text",
           sentimentOutput:[],
           sentiment:true
@@ -30,7 +30,7 @@ class App extends React.Component {
       mode = "text"
       rows = 4
     }
-      this.setState({innercomp:<textarea rows={rows} cols="50" id="textinput"/>,
+      this.setState({innercomp:<textarea rows={rows} cols="50" id="textinput" />,
       mode: mode,
       sentimentOutput:[],
       sentiment:true
@@ -38,13 +38,14 @@ class App extends React.Component {
   } 
   
   sendForSentimentAnalysis = () => {
+   
     this.setState({sentiment:true});
-    let url = ".";
+    let url = "http://localhost:8080";
     let mode = this.state.mode
     url = url+"/" + mode + "/sentiment?"+ mode + "="+document.getElementById("textinput").value;
-
-    fetch(url).then((response)=>{
-        response.text().then((data)=>{
+    fetch(url).then(response => response.json())
+     .then((data)=>{
+          console.log(data)
         this.setState({sentimentOutput:data.label});
         let output = data.label;
         let color = "white"
@@ -56,13 +57,13 @@ class App extends React.Component {
         }
         output = <div style={{color:color,fontSize:20}}>{output}</div>
         this.setState({sentimentOutput:output});
-      })});
-  }
+      })};
+     
 
   sendForEmotionAnalysis = () => {
 
     this.setState({sentiment:false});
-    let url = ".";
+    let url = "http://localhost:8080";
     let mode = this.state.mode
     url = url+"/" + mode + "/emotion?"+ mode + "="+document.getElementById("textinput").value;
 
@@ -76,6 +77,7 @@ class App extends React.Component {
   render() {
     return (  
       <div className="App">
+        {document.title = "Sentiment Analyzer"} <br></br>
       <button className="btn btn-info" onClick={()=>{this.renderOutput('text')}}>Text</button>
         <button className="btn btn-dark"  onClick={()=>{this.renderOutput('url')}}>URL</button>
         <br/><br/>
